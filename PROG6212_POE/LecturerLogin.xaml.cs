@@ -47,6 +47,7 @@ namespace PROG6212_POE
             }
             else
             {
+                //error message
                 MessageBox.Show("Invalid email or password.");
             }
         }
