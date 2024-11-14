@@ -87,7 +87,7 @@ namespace PROG6212_POE
 
                     // Insert the claim into the Claims table
                     string query = "INSERT INTO Claims (AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, SupportingDocumentPath, ClaimStatus, ClaimTotalAmount) " +
-                                   "VALUES (@AccountUserID, @ClassTaught, @NoOfSessions, @HourlyRatePerSession, @SupportingDocumentPath, 'Pending' @ClaimTotalAmount)";
+                                   "VALUES (@AccountUserID, @ClassTaught, @NoOfSessions, @HourlyRatePerSession, @SupportingDocumentPath, 'Pending', @ClaimTotalAmount)";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {

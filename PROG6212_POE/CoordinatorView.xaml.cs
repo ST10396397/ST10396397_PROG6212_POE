@@ -30,10 +30,9 @@ namespace PROG6212_POE
         // Load pending claims and allow the coordinator to approve/reject them
         private void LoadClaimsForApproval()
         {
-            string connectionString = "Data Source=labG9AEB3\\SQLEXPRESS;Initial Catalog=PROG6212POE;Integrated Security=True"; // Replace with actual connection string
+            string connectionString = "Data Source=labG9AEB3\\SQLEXPRESS;Initial Catalog=PROG6212POE;Integrated Security=True"; 
 
             List<Claim> claims = new List<Claim>();
-
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -45,7 +44,7 @@ namespace PROG6212_POE
                     {
                         while (reader.Read())
                         {
-                            claims.Add(new Claim
+                            var claim = new Claim
                             {
                                 ClaimsID = (int)reader["ClaimsID"],
                                 ClassTaught = reader["ClassTaught"]?.ToString() ?? string.Empty, // Safe access with null check
@@ -53,13 +52,40 @@ namespace PROG6212_POE
                                 HourlyRatePerSession = (decimal)reader["HourlyRatePerSession"],
                                 ClaimStatus = reader["ClaimStatus"]?.ToString() ?? string.Empty, // Safe access with null check
                                 ClaimTotalAmount = (int)reader["NoOfSessions"] * (decimal)reader["HourlyRatePerSession"]
-                            });
+                            };
+
+                            // Apply automated verification criteria
+                            if (VerifyClaimCriteria(claim))
+                            {
+                                // Automatically approve claims that meet the criteria
+                                UpdateClaimStatus(claim.ClaimsID, "Approved");
+                                claim.ClaimStatus = "Approved";
+                            }
+                            else
+                            {
+                                // Automatically reject claims that fail to meet criteria
+                                UpdateClaimStatus(claim.ClaimsID, "Rejected");
+                                claim.ClaimStatus = "Rejected";
+                            }
+
+                            claims.Add(claim);
                         }
                     }
                 }
             }
 
             ClaimsListView.ItemsSource = claims;
+        }
+
+        // Method to verify if a claim meets predefined criteria
+        private bool VerifyClaimCriteria(Claim claim)
+        {
+            // Define your criteria; for example:
+            int maxSessions = 20;
+            decimal maxHourlyRate = 500m;
+
+            // Check if claim meets the criteria
+            return claim.NoOfSessions <= maxSessions && claim.HourlyRatePerSession <= maxHourlyRate;
         }
 
         // Method to update claim status
