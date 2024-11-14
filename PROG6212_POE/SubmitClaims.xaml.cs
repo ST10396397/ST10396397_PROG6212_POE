@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
+using System.Globalization;
 
 namespace PROG6212_POE
 {
@@ -45,6 +46,19 @@ namespace PROG6212_POE
             }
         }
 
+        private void CalculateTotalAmount(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(txtNoOfSessions.Text, out int noOfSessions) && decimal.TryParse(txtHourlyRate.Text, out decimal hourlyRate))
+            {
+                decimal totalAmount = noOfSessions * hourlyRate;
+                txtTotalAmount.Text = $"R {totalAmount:F2}"; // Display in currency format
+            }
+            else
+            {
+                txtTotalAmount.Text = "Invalid input";
+            }
+        }
+
         private void SubmitClaim_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -62,17 +76,18 @@ namespace PROG6212_POE
                     return;
                 }
 
-                // Use @ to avoid needing double backslashes in the connection string
-                string connectionString = @"Data Source=labG9AEB3\SQLEXPRESS;Initial Catalog=PROG6212POE;Integrated Security=True"; // Replace with your actual connection string
+                decimal totalAmount = noOfSessions * hourlyRate;
 
+                // Use @ to avoid needing double backslashes in the connection string
+                string connectionString = @"Data Source=labG9AEB3\SQLEXPRESS;Initial Catalog=PROG6212POE;Integrated Security=True"; 
                 // Insert claim into the database
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
                     // Insert the claim into the Claims table
-                    string query = "INSERT INTO Claims (AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, SupportingDocumentPath, ClaimStatus) " +
-                                   "VALUES (@AccountUserID, @ClassTaught, @NoOfSessions, @HourlyRatePerSession, @SupportingDocumentPath, 'Pending')";
+                    string query = "INSERT INTO Claims (AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, SupportingDocumentPath, ClaimStatus, ClaimTotalAmount) " +
+                                   "VALUES (@AccountUserID, @ClassTaught, @NoOfSessions, @HourlyRatePerSession, @SupportingDocumentPath, 'Pending' @ClaimTotalAmount)";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -81,6 +96,7 @@ namespace PROG6212_POE
                         cmd.Parameters.AddWithValue("@NoOfSessions", noOfSessions);
                         cmd.Parameters.AddWithValue("@HourlyRatePerSession", hourlyRate);
                         cmd.Parameters.AddWithValue("@SupportingDocumentPath", selectedFilePath); // Store the file path
+                        cmd.Parameters.AddWithValue("@ClaimTotalAmount", totalAmount);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -108,13 +124,16 @@ namespace PROG6212_POE
             txtHourlyRate.Text = "";
             txtNotes.Text = "";
             txtSelectedFile.Text = "";
+            txtTotalAmount.Text = "";
             selectedFilePath = string.Empty;
         }
 
-        // This is a placeholder. Replace with the actual method to get the current logged-in lecturer's ID
+        
         private int GetCurrentLecturerID()
         {
-            return 1; // Example static lecturer ID
+            return 1; 
         }
+
+       
     }
 }
