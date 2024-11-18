@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,31 +33,42 @@ namespace PROG6212_POE
             try
             {
                 string connectionString = @"Data Source=labG9AEB3\SQLEXPRESS;Initial Catalog=PROG6212POE;Integrated Security=True";
-                string query = "SELECT AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, ClaimTotalAmount " +
-                               "FROM Claims WHERE ClaimStatus = 'Approved'";
+                string reportData = "Approved Claims Report\n\n";
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                    DataTable approvedClaims = new DataTable();
-                    adapter.Fill(approvedClaims);
 
-                    // Generate and save the report (you could export to CSV, PDF, etc.)
-                    string reportPath = "ApprovedClaimsReport.txt";
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(reportPath))
+                    string query = "SELECT ClaimsID, AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, ClaimTotalAmount " +
+                                   "FROM Claims WHERE ClaimStatus = 'Approved'";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        file.WriteLine("Approved Claims Report");
-                        file.WriteLine("LecturerID\tClassTaught\tSessions\tHourlyRate\tTotalAmount");
-
-                        foreach (DataRow row in approvedClaims.Rows)
+                        while (reader.Read())
                         {
-                            file.WriteLine($"{row["AccountUserID"]}\t{row["ClassTaught"]}\t{row["NoOfSessions"]}\t" +
-                                           $"{row["HourlyRatePerSession"]:C}\t{row["ClaimTotalAmount"]:C}");
+                            reportData += $"Claim ID: {reader["ClaimsID"]}\n" +
+                                          $"Lecturer ID: {reader["AccountUserID"]}\n" +
+                                          $"Class Taught: {reader["ClassTaught"]}\n" +
+                                          $"Number of Sessions: {reader["NoOfSessions"]}\n" +
+                                          $"Hourly Rate: {reader["HourlyRatePerSession"]:C}\n" +
+                                          $"Total Amount: {reader["ClaimTotalAmount"]:C}\n\n";
                         }
                     }
+                }
 
-                    MessageBox.Show("Claims report generated successfully!");
+                // Prompt user to save the report
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+                    Title = "Save Report",
+                    FileName = "ApprovedClaimsReport.txt"
+                };
+
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    File.WriteAllText(saveFileDialog.FileName, reportData);
+                    MessageBox.Show($"Report saved successfully at: {saveFileDialog.FileName}");
                 }
             }
             catch (SqlException sqlEx)
