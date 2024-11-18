@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -39,8 +40,9 @@ namespace PROG6212_POE
                 {
                     conn.Open();
 
-                    string query = "SELECT ClaimsID, AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, (NoOfSessions * HourlyRatePerSession) AS ClaimTotalAmount " +
-                                   "FROM Claims WHERE ClaimStatus = 'Approved'";
+                    string query = "SELECT c.ClaimsID, c.AccountUserID, u.Email, c.ClassTaught, c.NoOfSessions, c.HourlyRatePerSession," +
+                                   "(c.NoOfSessions * c.HourlyRatePerSession) AS ClaimTotalAmount " + "FROM Claims c " +
+                                    "INNER JOIN AccountUser u ON c.AccountUserID = u.AccountUserID " + "WHERE c.ClaimStatus = 'Approved'";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -49,6 +51,7 @@ namespace PROG6212_POE
                         {
                             reportData += $"Claim ID: {reader["ClaimsID"]}\n" +
                                           $"Lecturer ID: {reader["AccountUserID"]}\n" +
+                                          $"Email: {reader["Email"]}\n"+
                                           $"Class Taught: {reader["ClassTaught"]}\n" +
                                           $"Number of Sessions: {reader["NoOfSessions"]}\n" +
                                           $"Hourly Rate: {reader["HourlyRatePerSession"]:C}\n" +
