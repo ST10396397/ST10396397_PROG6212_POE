@@ -39,7 +39,7 @@ namespace PROG6212_POE
                 {
                     conn.Open();
 
-                    string query = "SELECT ClaimsID, AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, ClaimTotalAmount " +
+                    string query = "SELECT ClaimsID, AccountUserID, ClassTaught, NoOfSessions, HourlyRatePerSession, (NoOfSessions * HourlyRatePerSession) AS ClaimTotalAmount " +
                                    "FROM Claims WHERE ClaimStatus = 'Approved'";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
