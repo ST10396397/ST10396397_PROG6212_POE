@@ -12,6 +12,7 @@
             <Button Content="Create Account" Height="40" Click="CreateAccount_Click" Margin=" 15" Width="200"/>
             <Button Content="Lecturer Login" Height="40"  Click="Login_Click" Margin="15" Width="200"/>
             <Button Content="Coordinator Login" Height="40" Click="CoordinatorLogin_Click" Margin="15" Width="200"/>
+            <Button Content="HR" Height="40" Click="HRView_Click" Margin="15" Width="200"/>
             <Button Content="EXIT" Height="40" Click="Exit_Click" Margin="15" Width="200"/>
         </StackPanel>
     </Grid>

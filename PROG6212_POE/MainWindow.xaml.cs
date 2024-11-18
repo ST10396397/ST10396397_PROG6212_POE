@@ -46,5 +46,11 @@ namespace PROG6212_POE
         {
             Application.Current.Shutdown(); // Close the application
         }
+
+        private void HRView_Click(object sender, RoutedEventArgs e)
+        {
+            HRView hrView = new HRView();
+            hrView.Show();
+        }
     }
 }
