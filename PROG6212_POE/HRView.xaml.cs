@@ -97,7 +97,7 @@ namespace PROG6212_POE
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT FullName, Email, PhoneNumber FROM Lecturer WHERE Email = @Email";
+                    string query = "SELECT FirstName, LastName, Email, PhoneNumber FROM AccountUser WHERE Email = @Email";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -107,7 +107,8 @@ namespace PROG6212_POE
                         {
                             if (reader.Read())
                             {
-                                txtFullName.Text = reader["FullName"].ToString();
+                                txtFirstName.Text = reader["FirstName"].ToString();
+                                txtLastName.Text = reader["LastName"].ToString();
                                 txtEmail.Text = reader["Email"].ToString();
                                 txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
                             }
@@ -135,10 +136,11 @@ namespace PROG6212_POE
             try
             {
                 string email = txtEmail.Text;
-                string fullName = txtFullName.Text;
+                string firstName = txtFirstName.Text;
+                string lastName = txtLastName.Text;
                 string phoneNumber = txtPhoneNumber.Text;
 
-                if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber))
+                if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber))
                 {
                     MessageBox.Show("Please fill in all fields.");
                     return;
@@ -148,18 +150,19 @@ namespace PROG6212_POE
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "UPDATE Lecturer SET FullName = @FullName, PhoneNumber = @PhoneNumber WHERE Email = @Email";
+                    string query = "UPDATE AccountUser SET FirstName = @FirstName, LastName = @LastName, PhoneNumber = @PhoneNumber WHERE Email = @Email";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Email", email);
-                        cmd.Parameters.AddWithValue("@FullName", fullName);
+                        cmd.Parameters.AddWithValue("@FirstName", firstName);
+                        cmd.Parameters.AddWithValue("@LastName", lastName);
                         cmd.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
 
                         cmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Lecturer information updated successfully!");
+                    MessageBox.Show(" information updated successfully!");
                 }
             }
             catch (SqlException sqlEx)
@@ -174,7 +177,8 @@ namespace PROG6212_POE
 
         private void ResetLecturerFields()
         {
-            txtFullName.Text = "";
+            txtFirstName.Text = "";
+            txtLastName.Text = "";
             txtEmail.Text = "";
             txtPhoneNumber.Text = "";
         }
