@@ -21,14 +21,19 @@
                 <TabItem Header="Manage Lecturer Data">
                     <StackPanel>
                         <TextBlock Text="Update Lecturer Information" FontSize="18" FontWeight="Bold" Margin="10"/>
-                        <TextBlock Text="Lecturer ID:" VerticalAlignment="Center"/>
-                        <TextBox Name="txtLecturerID" Margin="10,0"/>
 
+                        <!-- Search by Email -->
+                        <TextBlock Text="Search Lecturer by Email:" VerticalAlignment="Center"/>
+                        <TextBox Name="txtSearchEmail" Margin="10,0"/>
+                        <Button Content="Search" Width="100" Height="30" Click="SearchLecturer_Click" Margin="10"/>
+
+                        <!-- Editable Lecturer Information -->
                         <TextBlock Text="Full Name:" VerticalAlignment="Center"/>
                         <TextBox Name="txtFullName" Margin="10,0"/>
 
                         <TextBlock Text="Email:" VerticalAlignment="Center"/>
-                        <TextBox Name="txtEmail" Margin="10,0"/>
+                        <TextBox Name="txtEmail" Margin="10,0" IsEnabled="False"/>
+                        <!-- Email is not editable for consistency -->
 
                         <TextBlock Text="Phone Number:" VerticalAlignment="Center"/>
                         <TextBox Name="txtPhoneNumber" Margin="10,0"/>

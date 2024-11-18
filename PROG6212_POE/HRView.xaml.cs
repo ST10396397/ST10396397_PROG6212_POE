@@ -67,5 +67,104 @@ namespace PROG6212_POE
                 MessageBox.Show($"An error occurred: {ex.Message}");
             }
         }
+
+        private void SearchLecturer_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string email = txtSearchEmail.Text;
+
+                if (string.IsNullOrEmpty(email))
+                {
+                    MessageBox.Show("Please enter an email to search.");
+                    return;
+                }
+
+                string connectionString = @"Data Source=labG9AEB3\SQLEXPRESS;Initial Catalog=PROG6212POE;Integrated Security=True";
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT FullName, Email, PhoneNumber FROM Lecturer WHERE Email = @Email";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", email);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                txtFullName.Text = reader["FullName"].ToString();
+                                txtEmail.Text = reader["Email"].ToString();
+                                txtPhoneNumber.Text = reader["PhoneNumber"].ToString();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Lecturer not found.");
+                                ResetLecturerFields();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"Database error: {sqlEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+        }
+
+        private void UpdateLecturer_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string email = txtEmail.Text;
+                string fullName = txtFullName.Text;
+                string phoneNumber = txtPhoneNumber.Text;
+
+                if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber))
+                {
+                    MessageBox.Show("Please fill in all fields.");
+                    return;
+                }
+
+                string connectionString = @"Data Source=labG9AEB3\SQLEXPRESS;Initial Catalog=PROG6212POE;Integrated Security=True";
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "UPDATE Lecturer SET FullName = @FullName, PhoneNumber = @PhoneNumber WHERE Email = @Email";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@FullName", fullName);
+                        cmd.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Lecturer information updated successfully!");
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show($"Database error: {sqlEx.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+        }
+
+        private void ResetLecturerFields()
+        {
+            txtFullName.Text = "";
+            txtEmail.Text = "";
+            txtPhoneNumber.Text = "";
+        }
+
     }
 }
