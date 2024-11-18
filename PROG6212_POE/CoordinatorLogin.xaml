@@ -8,6 +8,12 @@
         Title="CoordinatorLogin" Height="450" Width="800">
     <Grid>
         <StackPanel>
+            <StackPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                    <GradientStop Color="#FF21CC1C" Offset="1"/>
+                </LinearGradientBrush>
+            </StackPanel.Background> 
             <TextBlock Text="Coordinator Login Window" Margin="10" FontSize="20" HorizontalAlignment="Center"/>
 
             <!-- Email -->

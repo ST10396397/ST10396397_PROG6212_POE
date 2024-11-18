@@ -12,6 +12,12 @@
                 <!-- Tab for Claims Report Generation -->
                 <TabItem Header="Generate Claim Reports">
                     <StackPanel>
+                        <StackPanel.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                                <GradientStop Color="#FF21CC1C" Offset="1"/>
+                            </LinearGradientBrush>
+                        </StackPanel.Background>
                         <TextBlock Text="Generate Reports for Approved Claims" FontSize="18" FontWeight="Bold" Margin="10"/>
                         <Button Content="Generate Claims Report" Width="200" Height="40" Click="GenerateReport_Click" Margin="10"/>
                     </StackPanel>
@@ -20,6 +26,12 @@
                 <!-- Tab for Lecturer Data Management -->
                 <TabItem Header="Manage Lecturer Data">
                     <StackPanel>
+                        <StackPanel.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                                <GradientStop Color="#FF21CC1C" Offset="1"/>
+                            </LinearGradientBrush>
+                        </StackPanel.Background>
                         <TextBlock Text="Update Information" FontSize="18" FontWeight="Bold" Margin="10"/>
 
                         <!-- Search by Email -->

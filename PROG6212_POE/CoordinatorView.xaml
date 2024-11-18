@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="CoordinatorView" Height="450" Width="800">
     <Grid Margin="20">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                <GradientStop Color="#FF21CC1C" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
         <TextBlock Text="Claims Overview" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,20" Grid.Row="0"/>
 

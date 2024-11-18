@@ -8,6 +8,12 @@
         Title="LecturerView" Height="450" Width="800">
     <Grid>
         <StackPanel>
+            <StackPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                    <GradientStop Color="#FF21CC1C" Offset="1"/>
+                </LinearGradientBrush>
+            </StackPanel.Background>
             <TextBlock Text="LECTURER VIEW" HorizontalAlignment="Center" FontSize="20" FontWeight="DemiBold"/>
             <!-- Button to View Claims -->
             <Button Grid.Row="0" Content="View Claims" Height="60" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ViewClaims_Click" Margin="30"/>

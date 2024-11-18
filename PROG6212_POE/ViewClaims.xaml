@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="ViewClaims" Height="450" Width="800">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                <GradientStop Color="#FF21CC1C" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Name="ClaimsStackPanel" Margin="20">
                 <!-- Header -->

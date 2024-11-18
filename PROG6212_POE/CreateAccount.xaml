@@ -8,6 +8,12 @@
         Title="CreateAccount" Height="450" Width="800">
     <Grid>
         <StackPanel>
+            <StackPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                    <GradientStop Color="#FF21CC1C" Offset="1"/>
+                </LinearGradientBrush>
+            </StackPanel.Background>
             <!-- First Name -->
         <TextBlock  Text="First Name:" VerticalAlignment="Center"/>
         <TextBox  Name="txtFirstName" />

@@ -7,8 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                <GradientStop Color="#FF21CC1C" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        
         <TextBlock Text="WELCOME TO THE CLAIM SUBMISSION SYSTEM" HorizontalAlignment="Center" FontSize="20" Margin="5"/>
         <StackPanel VerticalAlignment="Center">
+            <StackPanel.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFB9CEB6" Offset="0.091"/>
+                    <GradientStop Color="#FF21CC1C" Offset="1"/>
+                </LinearGradientBrush>
+            </StackPanel.Background>
             <Button Content="Create Account" Height="40" Click="CreateAccount_Click" Margin=" 15" Width="200"/>
             <Button Content="Lecturer Login" Height="40"  Click="Login_Click" Margin="15" Width="200"/>
             <Button Content="Coordinator Login" Height="40" Click="CoordinatorLogin_Click" Margin="15" Width="200"/>
