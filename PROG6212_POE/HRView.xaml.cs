@@ -114,7 +114,7 @@ namespace PROG6212_POE
                             }
                             else
                             {
-                                MessageBox.Show("Lecturer not found.");
+                                MessageBox.Show("User not found.");
                                 ResetLecturerFields();
                             }
                         }
@@ -162,7 +162,7 @@ namespace PROG6212_POE
                         cmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show(" information updated successfully!");
+                    MessageBox.Show(" Information updated successfully!");
                 }
             }
             catch (SqlException sqlEx)
